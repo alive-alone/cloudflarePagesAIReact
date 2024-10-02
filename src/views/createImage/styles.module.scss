@@ -1,0 +1,146 @@
+.pages {
+  padding: 4vh 4vw;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f8f8;
+  .content-box {
+    width: 80vw;
+    height: 100%;
+    // max-width: 1200px;
+    background-color: #fff;
+    // border: 1px solid #dedede;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    .left-box {
+      width: 280px;
+      height: 100%;
+      background-color: #f1f1f1;
+    }
+    .right-box {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      .right-scroll {
+        flex: 1;
+        overflow: hidden;
+        .scroll-content {
+          height: 100%;
+          box-sizing: border-box;
+          padding: 40px 20px;
+          overflow-y: scroll;
+          overscroll-behavior: none;
+
+          .avatar-icon {
+            width: 36px;
+            height: 36px;
+            margin-bottom: 5px;
+          }
+          .chat-desc {
+            display: flex;
+            margin-bottom: 10px;
+            flex-direction: column;
+            align-items: flex-end;
+            .desc-content {
+              display: flex;
+              justify-content: flex-end;
+              span {
+                display: inline;
+                border: 1px solid #dedede;
+                padding: 10px;
+                background-color: #e7f8ff;;
+                box-sizing: border-box;
+                border-radius: 8px;
+              }
+            }
+
+          }
+          .robot-box {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          .img-box {
+            border: 1px solid #dedede;
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            padding: 10px;
+            max-width: 300px;
+            margin-bottom: 20px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+          }
+          .chat-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+          }
+        }
+        /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+        .scroll-content::-webkit-scrollbar
+        {
+          width: 4px;
+          height: 4px;
+          background-color: #fff;
+        }
+
+        /*定义滚动条轨道 内阴影+圆角*/
+        .scroll-content::-webkit-scrollbar-track
+        {
+          border-radius: 10px;
+          background-color: #fff;
+        }
+
+        /*定义滑块 内阴影+圆角*/
+        .scroll-content::-webkit-scrollbar-thumb
+        {
+          border-radius: 10px;
+          background-color: #e3e3e3;
+        }
+      }
+      .right-bottom {
+        // height: 15%;
+        box-sizing: border-box;
+        padding: 20px 20px 20px;
+        position: relative;
+        // border-top: 1px solid #dedede;
+        box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.1);
+        .btn-fixed {
+          position: absolute;
+          bottom: 35px;
+          right: 30px;
+          background-color: #1d45ab;
+          color: #fff;
+          padding: 10px 14px;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          font-size: 14px;
+          img {
+            width: 14px;
+            height: 14px;
+            margin-right: 4px;
+            margin-top: -2px;
+          }
+        }
+        .text-area {
+          border-radius: 8px;
+          padding: 12px 90px 12px 14px;
+          line-height: 1.4;
+          border: none;
+          box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.15);
+        }
+        .text-area::-webkit-input-placeholder {
+          color: #666;
+        }
+      }
+    }
+  }
+}
