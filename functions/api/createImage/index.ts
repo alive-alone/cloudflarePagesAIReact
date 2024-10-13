@@ -1,20 +1,44 @@
+const defaultModel = "@cf/stabilityai/stable-diffusion-xl-base-1.0";
+const otherModels = ["https://image.pollinations.ai/prompt"];
+
 export async function onRequest(context: any) {
   const { request, env } = context;
 
   if (request.method.toUpperCase() === "POST") {
     const body = await readRequestBody(request);
-    const response = await env.AI.run(
-      "@cf/stabilityai/stable-diffusion-xl-base-1.0",
-      body
-    );
-  
-    return new Response(response, {
-      headers: {
-        "content-type": "image/png",
-      },
-    });
+    const model = body["model"] || defaultModel;
+    delete body["model"];
+    if (otherModels.includes(model)) {
+      const response: Response = await fetch(
+        `${model}/${encodeURIComponent(body["prompt"])}`,
+        {
+          method: "GET",
+          headers: {},
+        }
+      );
+      return new Response(response.body, {
+        headers: {
+          "Content-Type": response.headers?.get("Content-Type") || "image/png",
+        },
+      });
+    } else {
+      const response = await env.AI.run(model, body);
+      if (response instanceof ReadableStream) {
+        return new Response(response, {
+          headers: {
+            "Content-Type": "image/png",
+          },
+        });
+      } else {
+        return new Response(JSON.stringify(response), {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
+    }
   }
-  return new Response('Hello World');
+  return new Response("Hello World");
 }
 
 async function readRequestBody(request: any) {

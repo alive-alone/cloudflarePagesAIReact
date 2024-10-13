@@ -53,12 +53,11 @@
                 display: inline;
                 border: 1px solid #dedede;
                 padding: 10px;
-                background-color: #e7f8ff;;
+                background-color: #e7f8ff;
                 box-sizing: border-box;
                 border-radius: 8px;
               }
             }
-
           }
           .robot-box {
             display: flex;
@@ -84,23 +83,20 @@
           }
         }
         /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
-        .scroll-content::-webkit-scrollbar
-        {
+        .scroll-content::-webkit-scrollbar {
           width: 4px;
           height: 4px;
           background-color: #fff;
         }
 
         /*定义滚动条轨道 内阴影+圆角*/
-        .scroll-content::-webkit-scrollbar-track
-        {
+        .scroll-content::-webkit-scrollbar-track {
           border-radius: 10px;
           background-color: #fff;
         }
 
         /*定义滑块 内阴影+圆角*/
-        .scroll-content::-webkit-scrollbar-thumb
-        {
+        .scroll-content::-webkit-scrollbar-thumb {
           border-radius: 10px;
           background-color: #e3e3e3;
         }
@@ -108,10 +104,13 @@
       .right-bottom {
         // height: 15%;
         box-sizing: border-box;
-        padding: 20px 20px 20px;
+        padding: 0px 20px 20px;
         position: relative;
-        // border-top: 1px solid #dedede;
-        box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.1);
+        border-top: 2px solid #f0f0f0;
+        // box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.1);
+        .function-box {
+          padding: 10px 0;
+        }
         .btn-fixed {
           position: absolute;
           bottom: 35px;
@@ -135,7 +134,8 @@
           padding: 12px 90px 12px 14px;
           line-height: 1.4;
           border: none;
-          box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.15);
+          // box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.15);
+          border: 1px solid rgba(0, 0, 0, 0.15);
         }
         .text-area::-webkit-input-placeholder {
           color: #666;
@@ -143,4 +143,7 @@
       }
     }
   }
+}
+
+@media screen and (max-width: 600px) {
 }
