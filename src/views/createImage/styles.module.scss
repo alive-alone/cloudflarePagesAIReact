@@ -40,8 +40,9 @@
       .right-scroll {
         flex: 1;
         overflow: hidden;
+        display: flex;
         .scroll-content {
-          height: 100%;
+          flex: 1;
           box-sizing: border-box;
           padding: 40px 20px;
           overflow-y: scroll;

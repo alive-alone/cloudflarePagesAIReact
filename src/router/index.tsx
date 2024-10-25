@@ -10,10 +10,6 @@ const routes: RouteObject[] = [
     path: '/',
     element: <Home></Home>
   },
-  {
-    path: '/createImage',
-    element: <CreateImage></CreateImage>
-  },
   // {
   //   path: '/',
   //   element: <Navigate to="/discover" />

@@ -1,13 +1,14 @@
 import { memo } from "react"
+import ReactMarkdown from "react-markdown";
 import Loading from '@/components/loading/threePoints';
-import type { chatType } from "@/views/home/home";
+import type { ChatType } from '@/utils/localStorage/chatData';
 import styles from './styles.module.scss';
 
 import robotIcon from '@/assets/icon/robot.svg';
 import userIcon from '@/assets/icon/user.svg';
 
 // user 
-export const UserChatItem = memo(({ data }: {data: chatType;}) => {
+export const UserChatItem = memo(({ data }: {data: ChatType;}) => {
   return (
     <>
       <div className={styles['chat-desc']}>
@@ -32,7 +33,7 @@ export const RobotChatItem = memo(({
   loading = false,
   update,
 }: {
-  data: chatType;
+  data: ChatType;
   loading?: boolean;
   update: () => void;
 }) => {
@@ -40,17 +41,21 @@ export const RobotChatItem = memo(({
     <>
       <div className={styles['robot-box']}>
         <img className={styles['avatar-icon']} src={robotIcon}></img>
-        <div className={styles['img-box']}>
+        <div className={styles['content-box']}>
           {loading ? (
             <Loading></Loading>
           ) : !data.imgSrc ? (
-            <span> {data.content}</span>
+            <div>
+              <ReactMarkdown children={data.content}></ReactMarkdown>
+            </div>
           ) : (
-            <img
-              className={styles['chat-img']}
-              src={data.imgSrc}
-              onLoad={update}
-            ></img>
+            <div className={styles['img-box']}>
+              <img
+                className={styles['chat-img']}
+                src={data.imgSrc}
+                onLoad={update}
+              ></img>
+            </div>
           )}
         </div>
         {data.date ? (

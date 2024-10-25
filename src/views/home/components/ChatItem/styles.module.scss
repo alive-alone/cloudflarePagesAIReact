@@ -13,13 +13,13 @@
       display: inline;
       border: 1px solid #dedede;
       padding: 10px;
-      background-color: #e7f8ff;;
+      background-color: #e7f8ff;
       box-sizing: border-box;
       border-radius: 8px;
-      text-align: justify; 
+      text-align: justify;
     }
   }
-  
+
   @media screen and (max-width: 600px) {
     .desc-content {
       max-width: 100%;
@@ -32,13 +32,21 @@
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 20px;
+  color: #252525;
 }
-.img-box {
+.content-box {
   border: 1px solid #dedede;
   background-color: rgba(0, 0, 0, 0.05);
   border-radius: 8px;
   padding: 10px;
-  max-width: 300px;
+  max-width: 500px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.img-box {
+  width: 100%;
+  height: 100%;
   display: inline-flex;
   justify-content: center;
   align-items: center;

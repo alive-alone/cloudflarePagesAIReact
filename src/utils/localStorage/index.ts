@@ -13,7 +13,7 @@ function checkKey(key: string, action: string) {
 }
 
 export default {
-  set(key: string, value: Storable) {
+  set(key: string, value: any) {
     checkKey(key, "set");
     if (typeof value === "undefined") {
       throw new Error(`${key}值为undefined`);
@@ -36,12 +36,12 @@ export default {
     localStorage.setItem(key, valueToStore);
   },
 
-  get<T extends Storable = Storable>(key: string): T | undefined {
+  get<T>(key: string): T {
     checkKey(key, "get");
     const rawValue = localStorage.getItem(key);
 
     if (!rawValue) {
-      return undefined;
+      return null;
     }
 
     try {

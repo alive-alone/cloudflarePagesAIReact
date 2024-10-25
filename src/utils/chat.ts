@@ -8,10 +8,11 @@ export const createChatTemplate = ({
   role: 'user' | 'robot' | 'img';
   content?: string;
 }) => {
-  const newChatItem = {
+  const day = new Date();
+  let newChatItem = {
     id: genUniqueId(),
     content: content,
-    date: Date.now().toLocaleString(),
+    date: day.toLocaleString(),
     imgSrc: '',
     role: role,
   };

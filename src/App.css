@@ -29,4 +29,11 @@ html,
 
 :root {
   --font-color-light-gray: #dcdcdc;
+  --font-color-gray: #888888;
+  --border-color-light-gray: #f0f0f0;
+  --mobile-width-threshold: 600px;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
 }
