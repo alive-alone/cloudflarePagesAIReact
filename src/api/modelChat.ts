@@ -1,3 +1,5 @@
+import { fetchEventSource } from "./fetchEventSource"
+
 // 调用大模型
 export const text2text = async (describe: string, model: string) => {
   if (describe) {
@@ -36,4 +38,28 @@ export const text2text = async (describe: string, model: string) => {
     }
     return response;
   }
+};
+
+export const text2textBySSE = async (messages: Array<{role: string, content: string}>, model: string, callback: (value: {data: string, done: boolean}) => void) => {
+  // const messages = [
+  //   { role: "system", content: "You are a friendly assistant" },
+  //   {
+  //     role: "user",
+  //     content: describe,
+  //   },
+  // ];
+  const datas = {
+    messages: messages,
+    model: model,
+  };
+
+  await fetchEventSource('/api/text2text', datas, callback)
+
+  const response = {
+    error: false,
+    errorMsg: '',
+    imgUrl: '',
+    response: ''
+  };
+  return response;
 };

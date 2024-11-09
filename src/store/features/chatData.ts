@@ -34,7 +34,7 @@ const creageSessionModel = (type = 'text2img') => {
         {
           id: 'writer-1',
           date: date.toLocaleString(),
-          role: 'robot',
+          role: 'img',
           content: '',
           imgSrc:
             'https://upload.aliveawait.top/file/a333b384c405b4f5e33e5.jpg',
@@ -118,15 +118,17 @@ export const chatDataSlice = createSlice({
       state.sessions[state.currentIndex].messages = [];
       saveTotalChatLocalDatas(state);
     },
+    // 更新当前聊天索引
     setCurChatIndex: (state, { payload }: { payload: number }) => {
       if (payload && payload < state.sessions.length) {
         state.currentIndex = payload;
       }
       saveTotalChatLocalDatas(state);
     },
+    // 更新当前聊天数据
     setCurChatMessage: (state, { payload }: { payload: Array<ChatType> }) => {
       state.sessions[state.currentIndex].messages = payload;
-      saveTotalChatLocalDatas(state);
+      // saveTotalChatLocalDatas(state);
     },
     // 新的聊天
     addNewSession: (state, { payload }) => {
@@ -162,6 +164,22 @@ export const chatDataSlice = createSlice({
       saveTotalChatLocalDatas(state);
       return state;
     },
+    // 修改当前聊天名称
+    setCurChatName: (state, { payload }) => {
+      if(payload) {
+        if(state.sessions[state.currentIndex].mask.name != payload) {
+          state.sessions[state.currentIndex].mask.name = payload;
+        }
+      }
+      return state;
+    },
+    // 修改当前聊天预设数据
+    setCurChatContext: (state, { payload }) => {
+      if(payload) {
+        state.sessions[state.currentIndex].mask.context = [...payload];
+      }
+      return state;
+    },
   },
 });
 
@@ -175,6 +193,8 @@ export const {
   addNewSession,
   setCurrentIndex,
   deleteSession,
+  setCurChatName,
+  setCurChatContext,
 } = chatDataSlice.actions;
 
 // 暴露reducer

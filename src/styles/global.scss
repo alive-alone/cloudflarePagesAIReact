@@ -6,3 +6,70 @@ html {
   height: 100%;
   box-sizing: border-box;
 }
+
+pre {
+  position: relative;
+  
+  &:hover .copy-code-button {
+    pointer-events: all;
+    transform: translateX(0px);
+    opacity: 0.5;
+  }
+
+  .copy-code-button {
+    position: absolute;
+    right: 10px;
+    top: 1em;
+    cursor: pointer;
+    padding: 0px 5px;
+    background-color: var(--black);
+    color: var(--white);
+    border: var(--border-in-light);
+    border-radius: 10px;
+    // transform: translateX(10px);
+    // pointer-events: none;
+    opacity: 0.5;
+    transition: all ease 0.3s;
+
+    &:after {
+      content: "copy";
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+pre {
+  .show-hide-button {
+    border-radius: 10px;
+    position: absolute;
+    inset: 0 0 auto 0;
+    width: 100%;
+    margin: auto;
+    height: fit-content;
+    display: inline-flex;
+    justify-content: center;
+    pointer-events: none;
+    button{
+      pointer-events: auto;
+      margin-top: 3em;
+      margin-bottom: 4em;
+      padding: 5px 16px;
+      border: 0;
+      cursor: pointer;
+      border-radius: 14px;
+      text-align: center;
+      color: white;
+      background: #464e4e;
+    } 
+  }
+  
+  .expanded {
+    background-image: none;
+  }
+  .collapsed {
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.06));
+  }
+}

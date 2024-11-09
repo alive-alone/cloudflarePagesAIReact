@@ -31,8 +31,20 @@ export const imageModels: Array<modelOptionType> = [
 // 文本生成大模型
 export const textModels: Array<modelOptionType> = [
   {
-    value: '@cf/google/gemma-7b-it-lora',
-    label: 'gemma-7b-it-lora',
+    value: '@cf/meta/llama-3.1-70b-instruct',
+    label: 'llama-3.1-70b-instruct',
+  },
+  {
+    value: '@hf/google/gemma-7b-it',
+    label: 'gemma-7b-it',
+  },
+  {
+    value: '@cf/qwen/qwen1.5-14b-chat-awq',
+    label: 'qwen1.5-14b-chat-awq',
+  },
+  {
+    value: '@cf/openchat/openchat-3.5-0106',
+    label: 'openchat-3.5',
   },
 ];
 // 获取指定模型选项

@@ -2,15 +2,18 @@ import React, { memo, useEffect, useState, useRef } from 'react';
 import type { FC, ReactNode } from 'react';
 import { Input, Select, Button, Modal } from 'antd';
 import { createChatTemplate } from '@/utils/chat';
+import type { SessionType } from '@/utils/localStorage/chatData';
 import { RobotChatItem, UserChatItem } from './components/ChatItem';
-import { createImage, text2text } from '@/api';
+import { createImage, text2text, text2textBySSE } from '@/api';
 import { getModelOptions } from '@/api/models';
 import {
   setCurChatMessage,
   clearCurChatMessage,
+  saveLocalstorage,
 } from '@/store/features/chatData';
 import { useAppSelector, useAppDispatch } from '@/store';
 import LeftBox from './components/LeftBox';
+import Title from "./components/Title"
 import { useLocation } from 'react-router-dom';
 import { useSetUrlHash } from "@/utils/common";
 
@@ -41,6 +44,7 @@ const Page: FC<IProps> = () => {
   const [modelOptions, setModelOptions] = useState(getModelOptions(chatData.mask.type as any));
   const selectModel = useRef(modelOptions[0].value);
   const [isMobile, setIsMobile] = useState(false);
+  const [SSEValue, setSSEValue] = useState('')
 
   // 模型选择回调
   const onSelectModel = (model: string) => {
@@ -50,24 +54,29 @@ const Page: FC<IProps> = () => {
   };
   // 点击发送
   const clickSend = async () => {
-    if (isLoading) return;
+    if (isLoading || !inputValue) return;
     setIsLoading(true);
     setInputValue('');
     const userChatItem = createChatTemplate({
       content: inputValue,
-      role: 'user',
+      type: 'user',
     });
-    const robotChatItem = createChatTemplate({ role: 'img' });
+    const robotChatItem = createChatTemplate({ type: chatData.mask.type });
     const chatListTemp = [...chatData.messages, userChatItem];
     dispatch(setCurChatMessage([...chatListTemp, { ...robotChatItem }]));
     scrollPos();
     if(chatData.mask.type == 'text2text') {
-      const result = await text2text(inputValue, selectModel.current);
-      if (result?.error) {
-        robotChatItem.content = result.errorMsg;
-      } else {
-        robotChatItem.content = result?.response || '';
+      const getDatas = (value: {data: string, done: boolean}) => {
+        robotChatItem.content = value?.data || ''
+        dispatch(setCurChatMessage([...chatListTemp, { ...robotChatItem }]));
+        setIsLoading(false);
+        scrollPos();
+        if(value.done) {
+          dispatch(saveLocalstorage());
+        }
       }
+      const clearList = clearChatDataList(chatData, inputValue)
+      await text2textBySSE(clearList, selectModel.current, (value) => getDatas(value))
     } else {
       const result = await createImage(inputValue, selectModel.current);
       if (result?.error) {
@@ -82,6 +91,32 @@ const Page: FC<IProps> = () => {
       scrollPos();
     })
   };
+  // 清空聊天记录
+  const clearChatDataList = (session: SessionType, describe: string) => {
+    const returnList = [];
+    if(session.mask.context?.length) {
+      session.mask.context.map((item) => {
+        returnList.push({
+          role: item.role,
+          content: item.content,
+        })
+      })
+    }
+    if(session.messages?.length) {
+      // 最长 20 个对话
+      session.messages.slice(0, 20).map((item) => {
+        returnList.push({
+          role: item.role,
+          content: item.content,
+        })
+      })
+    }
+    returnList.push({
+      role: "user",
+      content: describe,
+    });
+    return returnList;
+  }
   // 控制滚动
   const scrollPos = () => {
     setTimeout(() => {
@@ -107,6 +142,7 @@ const Page: FC<IProps> = () => {
       },
     });
   };
+  // 判断当前使用的 class 样式
   const getCurrentClass = () => {
     if(isMobile) {
       if(location.hash.includes('#/chat')) {
@@ -129,14 +165,16 @@ const Page: FC<IProps> = () => {
     const mediaQuery = window.matchMedia('(max-width: 600px)');
     setIsMobile(mediaQuery.matches);
     mediaQuery.addEventListener('change', mqListener);
-    pageInit()
+    pageInit();
+    scrollPos();
     return () => {
       mediaQuery.removeEventListener('change', mqListener);
     };
   }, []);
   // 监听 currentIndex
   useEffect(() => {
-    pageInit()
+    pageInit();
+    scrollPos();
   }, [chatData.mask.type])
 
   return (
@@ -149,19 +187,20 @@ const Page: FC<IProps> = () => {
           className={`${styles['right-box']}`}
         >
           <div className={styles['right-scroll']}>
-            <div className={styles['scroll-title']}>
+            <Title></Title>
+            {/* <div className={styles['scroll-title']}>
               <div className={styles['block']} onClick={() => setUrlHash('/#/')}>
                 <img src={backIncon}></img>
               </div>
               <div className={styles['title-box']}>
-                <div className={styles['title']}>{chatData.mask.name}</div>
+                <div className={styles['title']} onClick={() => {}}>{chatData.mask.name}</div>
                 <div
                   className={styles['subtitle']}
                 >{`共 ${chatData.messages.length} 条聊天`}</div>
               </div>
               <div className={styles['block']}>
               </div>
-            </div>
+            </div> */}
             <div className={styles['scroll-content']} ref={chatScrollRef}>
               {[...(chatData.mask.context || []), ...chatData.messages].map(
                 (item, index) => {
@@ -179,7 +218,6 @@ const Page: FC<IProps> = () => {
                             update={() => scrollPos()}
                           ></RobotChatItem>
                         </>
-                        
                       )}
                     </div>
                   );
@@ -201,7 +239,6 @@ const Page: FC<IProps> = () => {
                   onSelect={onSelectModel}
                 />
               </div>
-              {/* <div className={styles["clear-btn"]}>清空聊天</div> */}
               <Button
                 className={styles['clear-btn']}
                 danger

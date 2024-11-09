@@ -8,15 +8,20 @@ export async function onRequest(context: any) {
     const body = await readRequestBody(request);
     const model = body['model'] || defaultModel;
     const messages = body['messages'];
-
     const response = await env.AI.run(
       model,
-      { messages },
-    );
-    return new Response(JSON.stringify(response), {
-      headers: {
-        "Content-Type": "application/json",
+      { 
+        messages,
+        stream: true,
       },
+    );
+    // return new Response(JSON.stringify(response), {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+    return new Response(response, {
+      headers: { "content-type": "text/event-stream" },
     });
   }
   return new Response('Hello World');

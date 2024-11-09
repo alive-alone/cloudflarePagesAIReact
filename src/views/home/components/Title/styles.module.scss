@@ -1,0 +1,99 @@
+.body {
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border-color-light-gray);
+  .block {
+    display: none;
+  }
+  .title-cont {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 1.4;
+      margin-bottom: 2px;
+      text-underline-offset: 5px;
+      &:hover {
+        text-decoration: underline #95b1fe;
+      }
+    }
+    img {
+      margin-left: 8px;
+      width: 12px;
+      height: 12px;
+    }
+  }
+  .subtitle {
+    font-size: 13px;
+    color: var(--font-color-gray);
+  }
+}
+@media screen and (max-width: 600px) {
+  .body {
+    .title-box {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      .title {
+        font-size: 16px;
+        margin-bottom: 0px;
+      }
+      .subtitle {
+        font-size: 12px;
+      }
+    }
+    .block {
+      display: block;
+      width: 40px;
+      height: 40px;
+      padding: 10px;
+      box-sizing: border-box;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+}
+.preset-box {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+  align-items: center;
+  div:not(:last-child) {
+    margin-right: 6px;
+  }
+}
+.delete-btn {
+  width: 18px;
+  height: 18px;
+  margin-left: 2px;
+  opacity: 0.6;
+}
+.add-btn {
+  width: 50%;
+  border: 1px dashed #d9d9d9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 0;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  box-sizing: border-box;
+  img {
+    width: 18px;
+    height: 18px;
+    opacity: 0.8;
+  }
+}
+.submit-btn {
+  display: flex;
+  justify-content: flex-end;
+}

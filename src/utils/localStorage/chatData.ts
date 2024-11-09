@@ -99,10 +99,7 @@ export const saveTotalChatLocalDatas = (value: ChatDataType) => {
   sessionsList.map((item) => {
     if (item.mask.type == "text2img") {
       item.messages.map((mes) => {
-        return {
-          ...mes,
-          imgSrc: "",
-        };
+        mes["imgSrc"] = "";
       });
     }
   });
@@ -130,7 +127,7 @@ export const setChatLocalDatas = (index: number, value: SessionType) => {
   }
   return datas;
 };
-// 清空聊天记录
+// 清空所有聊天记录
 export const removeAllChatLocalDatas = () => {
   return localStorage.remove(CHAT_DATA_LIST);
 };

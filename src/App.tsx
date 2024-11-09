@@ -4,6 +4,8 @@ import './App.css'
 import routes from './router';
 import { getLocalstorage, saveLocalstorage } from '@/store/features/chatData'
 import { useAppDispatch} from '@/store'
+import "@/styles/markdown.scss"
+import "@/styles/highlight.scss"
 
 // https://juejin.cn/post/7235074521777700901#heading-10
 

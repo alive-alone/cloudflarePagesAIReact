@@ -2,6 +2,7 @@ import { memo } from "react"
 import ReactMarkdown from "react-markdown";
 import Loading from '@/components/loading/threePoints';
 import type { ChatType } from '@/utils/localStorage/chatData';
+import {MarkdownContent} from "@/components/markdown/markdown"
 import styles from './styles.module.scss';
 
 import robotIcon from '@/assets/icon/robot.svg';
@@ -44,17 +45,25 @@ export const RobotChatItem = memo(({
         <div className={styles['content-box']}>
           {loading ? (
             <Loading></Loading>
-          ) : !data.imgSrc ? (
-            <div>
-              <ReactMarkdown children={data.content}></ReactMarkdown>
-            </div>
-          ) : (
+          ) : data.role === 'img' ? 
+          (
             <div className={styles['img-box']}>
-              <img
-                className={styles['chat-img']}
-                src={data.imgSrc}
-                onLoad={update}
-              ></img>
+              {
+                data.imgSrc ?
+                <img
+                  className={styles['chat-img']}
+                  src={data.imgSrc}
+                  onLoad={update}
+                ></img>
+                : <span>已销毁</span>
+              }
+            </div>
+          ) : 
+          (
+            <div className={styles['markdown-box']}>
+              {/* <ReactMarkdown children={data.content}></ReactMarkdown>
+               */}
+              <MarkdownContent content={data.content}></MarkdownContent>
             </div>
           )}
         </div>
